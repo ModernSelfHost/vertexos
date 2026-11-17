@@ -20,17 +20,17 @@ export default function Dashboard() {
       {loading && <div className="spinner" />}
       <div className="grid grid-3">
         <div className="tile">
-          <div className="icon">🗂️</div>
+          <span className="material-symbols-outlined" style={{ fontSize: "2.5rem", color: "var(--accent-2)" }}>storage</span>
           <div className="value">{pools.length}</div>
           <div className="label">Pools</div>
         </div>
         <div className="tile">
-          <div className="icon">💿</div>
+          <span className="material-symbols-outlined" style={{ fontSize: "2.5rem", color: "var(--accent-2)" }}>hard_drive</span>
           <div className="value">{drives.length}</div>
           <div className="label">Drives</div>
         </div>
         <div className="tile">
-          <div className="icon">🔔</div>
+          <span className="material-symbols-outlined" style={{ fontSize: "2.5rem", color: activeAlerts.length ? "var(--danger)" : "var(--success)" }}>notifications</span>
           <div className="value" style={{ color: activeAlerts.length ? "var(--danger)" : "var(--success)" }}>{activeAlerts.length}</div>
           <div className="label">Alerts</div>
         </div>
