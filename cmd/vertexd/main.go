@@ -16,6 +16,7 @@ import (
 
 	"github.com/ModernSelfHost/vertexos/internal/cert"
 	"github.com/ModernSelfHost/vertexos/internal/config"
+	"github.com/ModernSelfHost/vertexos/internal/apps"
 	"github.com/ModernSelfHost/vertexos/internal/auth"
 	"github.com/ModernSelfHost/vertexos/internal/httpapi"
 	"github.com/ModernSelfHost/vertexos/internal/jobqueue"
@@ -80,6 +81,8 @@ func main() {
 		SessionStore:  sessionStore,
 		JobManager:    jobManager,
 		DB:            db,
+		AppCatalog:    apps.NewCatalog(""),
+		AppRuntime:    apps.NoopRuntime{},
 	})
 
 	srv := &http.Server{

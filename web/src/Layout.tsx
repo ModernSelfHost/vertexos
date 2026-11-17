@@ -6,6 +6,7 @@ const links = [
   { to: "/", label: "Dashboard", icon: "dashboard" },
   { to: "/storage", label: "Storage", icon: "storage" },
   { to: "/shares", label: "Shares", icon: "folder_shared" },
+  { to: "/apps", label: "Apps", icon: "apps" },
   { to: "/users", label: "Users", icon: "group", admin: true },
   { to: "/system", label: "System", icon: "settings", admin: true },
 ];

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Storage from "./pages/Storage";
 import Shares from "./pages/Shares";
+import Apps from "./pages/Apps";
 import Users from "./pages/Users";
 import System from "./pages/System";
 import Wizard from "./pages/Wizard";
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/" element={<Guard><Dashboard /></Guard>} />
           <Route path="/storage" element={<Guard><Storage /></Guard>} />
           <Route path="/shares" element={<Guard><Shares /></Guard>} />
+          <Route path="/apps" element={<Guard><Apps /></Guard>} />
           <Route path="/users" element={<Guard><Users /></Guard>} />
           <Route path="/system" element={<Guard><System /></Guard>} />
         </Route>

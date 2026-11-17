@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/ModernSelfHost/vertexos/internal/apps"
 	"github.com/ModernSelfHost/vertexos/internal/jobqueue"
 	"github.com/ModernSelfHost/vertexos/internal/sessions"
 	"github.com/ModernSelfHost/vertexos/internal/users"
@@ -26,6 +27,8 @@ type RouterDeps struct {
 	SessionStore *sessions.Store
 	JobManager   *jobqueue.Manager
 	DB           *sql.DB
+	AppCatalog   *apps.Catalog
+	AppRuntime   apps.Runtime
 }
 
 // NewRouter builds the top-level HTTP mux.
@@ -33,6 +36,7 @@ func NewRouter(deps RouterDeps) http.Handler {
 	mux := http.NewServeMux()
 
 	registerAlertRoutes(mux, deps)
+	registerAppRoutes(mux, deps)
 	registerAuthRoutes(mux, deps)
 	registerUserRoutes(mux, deps)
 	registerDashboardRoutes(mux, deps)
