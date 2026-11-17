@@ -1,0 +1,5 @@
+module github.com/ModernSelfHost/vertexos
+
+go 1.27.4
+
+toolchain go1.27.4

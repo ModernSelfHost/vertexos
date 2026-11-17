@@ -9,9 +9,9 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 ### Repo & tooling
 - [x] Initialize git repository in project root
 - [x] Add `.gitignore` (Go, Node, OS, secrets)
-- [ ] Create top-level layout: `cmd/`, `internal/`, `web/`, `installer/`, `docs/`, `scripts/`
-- [ ] Initialize Go module (`go.mod`) with module `github.com/ModernSelfHost/vertexos`
-- [ ] Pin Go toolchain version in `go.mod`
+- [x] Create top-level layout: `cmd/`, `internal/`, `web/`, `installer/`, `docs/`, `scripts/`
+- [x] Initialize Go module (`go.mod`) with module `github.com/ModernSelfHost/vertexos`
+- [x] Pin Go toolchain version in `go.mod`
 - [ ] Add `Makefile` with `build`, `test`, `lint`, `run` targets
 - [ ] Add `golangci-lint` config
 - [ ] Initialize React + TypeScript SPA under `web/` (Vite)
