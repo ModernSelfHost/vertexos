@@ -1,0 +1,17 @@
+name: Build ISO
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build-iso:
+    name: Build installer ISO (placeholder)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Not yet implemented
+        run: |
+          echo "ISO build pipeline lands in Milestone 3."
+          exit 0

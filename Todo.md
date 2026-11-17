@@ -16,9 +16,9 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] Add `golangci-lint` config
 - [x] Initialize React + TypeScript SPA under `web/` (Vite)
 - [x] Add ESLint + Prettier config for `web/`
-- [ ] Add CI workflow: lint + test on PR
-- [ ] Add CI workflow: build ISO (placeholder, wired in M3)
-- [ ] Write `README.md` with dev setup
+- [x] Add CI workflow: lint + test on PR
+- [x] Add CI workflow: build ISO (placeholder, wired in M3)
+- [x] Write `README.md` with dev setup
 
 ### vertexd skeleton
 - [ ] `cmd/vertexd/main.go` entrypoint
