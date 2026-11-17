@@ -122,26 +122,26 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 ## Milestone 2 — Shares and users
 
 ### Users
-- [ ] User CRUD endpoints
-- [ ] Role assignment
-- [ ] Password change (self + admin reset)
-- [ ] Map web accounts to OS system accounts
-- [ ] SMB password sync
+- [x] User CRUD endpoints
+- [x] Role assignment
+- [x] Password change (self + admin reset)
+- [x] Map web accounts to OS system accounts
+- [x] SMB password sync
 
 ### Shares
-- [ ] Create dataset per share
-- [ ] Share CRUD endpoints (name, dataset, quota, access list)
-- [ ] Quota set via ZFS
-- [ ] Access list → Samba config regeneration
-- [ ] Managed Samba config file
-- [ ] NFS export management (advanced)
-- [ ] Guest-accessible flag
+- [x] Create dataset per share
+- [x] Share CRUD endpoints (name, dataset, quota, access list)
+- [x] Quota set via ZFS
+- [x] Access list → Samba config regeneration
+- [x] Managed Samba config file
+- [x] NFS export management (advanced)
+- [x] Guest-accessible flag
 - [ ] Time Machine preset (later)
 
 ### Permissions
-- [ ] Permission matrix (user/role → read/write)
-- [ ] Apply permissions to dataset ACLs
-- [ ] `GET /api/v1/shares/{id}/permissions`
+- [x] Permission matrix (user/role → read/write)
+- [x] Apply permissions to dataset ACLs
+- [x] `GET /api/v1/shares/{id}/permissions`
 
 ### Frontend
 - [ ] Users screen

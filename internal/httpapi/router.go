@@ -34,9 +34,12 @@ func NewRouter(deps RouterDeps) http.Handler {
 
 	registerAlertRoutes(mux, deps)
 	registerAuthRoutes(mux, deps)
+	registerUserRoutes(mux, deps)
 	registerDashboardRoutes(mux, deps)
 	registerJobsRoutes(mux, deps)
+	registerNFSRoutes(mux, deps)
 	registerPoolRoutes(mux, deps)
+	registerShareRoutes(mux, deps)
 	registerStorageRoutes(mux, deps)
 	registerSystemRoutes(mux, deps)
 	registerWS(mux, deps)
@@ -58,7 +61,34 @@ func NewRouter(deps RouterDeps) http.Handler {
 		mux.Handle("/", spaHandler(http.Dir(deps.StaticDir)))
 	}
 
+	// Wrap with auth middleware for protected paths.
+	if deps.UserStore != nil && deps.SessionStore != nil {
+		authMw := AuthMiddleware(deps.UserStore, deps.SessionStore)
+		orig := mux
+		wrapped := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if isPublicPath(r.URL.Path) {
+				orig.ServeHTTP(w, r)
+				return
+			}
+			authMw(orig).ServeHTTP(w, r)
+		})
+		return wrapped
+	}
 	return mux
+}
+
+func isPublicPath(p string) bool {
+	switch {
+	case p == "/api/v1/health":
+		return true
+	case p == "/api/v1/auth/login":
+		return true
+	case p == "/ws":
+		return true
+	case !strings.HasPrefix(p, "/api/"):
+		return true // static
+	}
+	return false
 }
 
 // spaHandler serves index.html for unknown paths (client-side routing).
