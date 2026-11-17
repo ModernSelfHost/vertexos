@@ -34,6 +34,14 @@ func registerJobsRoutes(mux *http.ServeMux, deps RouterDeps) {
 		}
 		w.WriteHeader(http.StatusNoContent)
 	})
+	mux.HandleFunc("POST /api/v1/jobs/{id}/retry", func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
+		if !deps.JobManager.Retry(id) {
+			http.Error(w, "not retryable", http.StatusBadRequest)
+			return
+		}
+		w.WriteHeader(http.StatusAccepted)
+	})
 }
 
 var _ = jobqueue.Manager{}

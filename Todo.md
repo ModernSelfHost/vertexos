@@ -53,7 +53,7 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] Per-job log storage + streaming
 - [x] WebSocket event for job progress
 - [x] `GET /api/v1/jobs` (list/history)
-- [ ] Safe retry on failure
+- [x] Safe retry on failure
 
 ### State store & reconciliation
 - [x] SQLite migrations framework

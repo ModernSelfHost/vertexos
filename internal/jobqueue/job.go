@@ -26,6 +26,7 @@ type Job struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
+	fn     JobFunc
 	cancel chan struct{}
 	logs   []string
 	mu     sync.Mutex

@@ -21,6 +21,7 @@ func (m *Manager) Enqueue(jobType string, fn JobFunc) *Job {
 		Message:   "",
 		CreatedAt: now,
 		UpdatedAt: now,
+		fn:        fn,
 		cancel:    make(chan struct{}),
 	}
 	m.mu.Lock()
@@ -110,6 +111,31 @@ func (m *Manager) List() []*Job {
 func (m *Manager) SetProgress(j *Job, progress int, msg string) {
 	m.setStatus(j, j.Status, progress, msg)
 	m.broadcast(j)
+}
+
+// Retry re-runs a failed/cancelled job using its stored function.
+func (m *Manager) Retry(id string) bool {
+	m.mu.Lock()
+	j, ok := m.jobs[id]
+	m.mu.Unlock()
+	if !ok || j.fn == nil {
+		return false
+	}
+	if j.Status != StatusFailed && j.Status != StatusCancelled {
+		return false
+	}
+	// reset
+	j.mu.Lock()
+	j.Status = StatusQueued
+	j.Progress = 0
+	j.Message = ""
+	j.logs = nil
+	j.cancel = make(chan struct{})
+	j.UpdatedAt = time.Now().UTC()
+	j.mu.Unlock()
+	m.persist(j)
+	go m.run(j, j.fn)
+	return true
 }
 
 // Cancel requests cancellation. JobFunc should check j.cancel channel.
