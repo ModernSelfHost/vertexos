@@ -11,13 +11,21 @@ export default function System() {
   return (
     <div>
       <h2>System</h2>
-      <h3>Alerts</h3>
-      {alerts.map((a: any) => (
-        <div key={a.id} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #eee", padding: 4 }}>
-          <span style={{ color: a.dismissed ? "#999" : "inherit" }}>{a.severity}: {a.message}</span>
-          {!a.dismissed && <button onClick={() => dismiss(a.id)}>Dismiss</button>}
-        </div>
-      ))}
+      <div className="card">
+        <h3>Alerts</h3>
+        {alerts.length === 0 && <p className="muted">No alerts.</p>}
+        {alerts.map((a: any) => (
+          <div key={a.id} className="list-item">
+            <div>
+              <span style={{ color: a.dismissed ? "var(--muted)" : a.severity === "critical" ? "var(--danger)" : "var(--warn)" }}>
+                {a.severity.toUpperCase()}: {a.message}
+              </span>
+              <p className="muted" style={{ margin: 0 }}>{a.created_at}</p>
+            </div>
+            {!a.dismissed && <button className="btn ghost" onClick={() => dismiss(a.id)}>Dismiss</button>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

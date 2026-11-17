@@ -8,18 +8,27 @@ export default function Login() {
   const [u, setU] = useState("");
   const [p, setP] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
   async function submit(e: any) {
     e.preventDefault();
+    setLoading(true);
+    setErr("");
     try { await login(u, p); nav("/"); }
-    catch (e: any) { setErr(e.message); }
+    catch (e: any) { setErr(e.message || "Login failed"); }
+    finally { setLoading(false); }
   }
   return (
-    <form onSubmit={submit} style={{ maxWidth: 320, margin: "2rem auto" }}>
-      <h2>Login</h2>
-      <input placeholder="username" value={u} onChange={e => setU(e.target.value)} style={{ display: "block", width: "100%", marginBottom: 8 }} />
-      <input placeholder="password" type="password" value={p} onChange={e => setP(e.target.value)} style={{ display: "block", width: "100%", marginBottom: 8 }} />
-      <button type="submit">Login</button>
-      {err && <p style={{ color: "red" }}>{err}</p>}
-    </form>
+    <div className="card login-box">
+      <h2 style={{ textAlign: "center", marginTop: 0 }}>Vertex OS</h2>
+      <p className="muted" style={{ textAlign: "center" }}>Sign in to continue</p>
+      <form onSubmit={submit}>
+        <input className="input" placeholder="username" value={u} onChange={e => setU(e.target.value)} />
+        <input className="input" placeholder="password" type="password" value={p} onChange={e => setP(e.target.value)} />
+        <button className="btn" type="submit" style={{ width: "100%" }} disabled={loading}>
+          {loading ? "Signing in..." : "Login"}
+        </button>
+        {err && <p style={{ color: "var(--danger)", marginTop: 8 }}>{err}</p>}
+      </form>
+    </div>
   );
 }
