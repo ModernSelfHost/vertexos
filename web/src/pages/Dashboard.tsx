@@ -19,20 +19,20 @@ export default function Dashboard() {
       <h2>Dashboard</h2>
       {loading && <div className="spinner" />}
       <div className="grid grid-3">
-        <div className="card">
-          <h3>Pools</h3>
-          <div className="stat">{pools.length}</div>
-          <p className="muted">configured pools</p>
+        <div className="tile">
+          <div className="icon">🗂️</div>
+          <div className="value">{pools.length}</div>
+          <div className="label">Pools</div>
         </div>
-        <div className="card">
-          <h3>Drives</h3>
-          <div className="stat">{drives.length}</div>
-          <p className="muted">detected drives</p>
+        <div className="tile">
+          <div className="icon">💿</div>
+          <div className="value">{drives.length}</div>
+          <div className="label">Drives</div>
         </div>
-        <div className="card">
-          <h3>Alerts</h3>
-          <div className="stat" style={{ color: activeAlerts.length ? "var(--danger)" : "var(--success)" }}>{activeAlerts.length}</div>
-          <p className="muted">active alerts</p>
+        <div className="tile">
+          <div className="icon">🔔</div>
+          <div className="value" style={{ color: activeAlerts.length ? "var(--danger)" : "var(--success)" }}>{activeAlerts.length}</div>
+          <div className="label">Alerts</div>
         </div>
       </div>
 

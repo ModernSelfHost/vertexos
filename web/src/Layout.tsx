@@ -1,31 +1,45 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "./auth";
+import Metaballs from "./Metaballs";
+
+const links = [
+  { to: "/", label: "Dashboard", icon: "🏠" },
+  { to: "/storage", label: "Storage", icon: "💾" },
+  { to: "/shares", label: "Shares", icon: "📁" },
+  { to: "/users", label: "Users", icon: "👤", admin: true },
+  { to: "/system", label: "System", icon: "⚙️", admin: true },
+];
 
 export default function Layout() {
   const { user, logout } = useAuth();
   return (
-    <div>
-      <header className="app-header">
-        <div className="brand">Vertex OS</div>
-        <nav className="nav">
-          <Link to="/">Dashboard</Link>
-          <Link to="/storage">Storage</Link>
-          <Link to="/shares">Shares</Link>
-          {user?.role === "admin" && <Link to="/users">Users</Link>}
-          {user?.role === "admin" && <Link to="/system">System</Link>}
+    <div className="layout">
+      <Metaballs />
+      <aside className="sidebar">
+        <div className="brand">Vertex</div>
+        <nav>
+          {links.map(l => {
+            if (l.admin && user?.role !== "admin") return null;
+            return (
+              <NavLink key={l.to} to={l.to} end={l.to === "/"} className={({ isActive }) => "side-link" + (isActive ? " active" : "")}>
+                <span className="icon">{l.icon}</span>
+                <span>{l.label}</span>
+              </NavLink>
+            );
+          })}
         </nav>
-        <div className="row">
+        <div className="sidebar-footer">
           {user ? (
             <>
-              <span className="muted">{user.username}</span>
-              <button className="btn ghost" onClick={logout}>Logout</button>
+              <div className="muted" style={{ marginBottom: 8 }}>{user.username}</div>
+              <button className="btn ghost" style={{ width: "100%" }} onClick={logout}>Logout</button>
             </>
           ) : (
-            <Link to="/login" className="btn">Login</Link>
+            <NavLink to="/login" className="btn" style={{ display: "block", textAlign: "center" }}>Login</NavLink>
           )}
         </div>
-      </header>
-      <main>
+      </aside>
+      <main className="main">
         <Outlet />
       </main>
     </div>
