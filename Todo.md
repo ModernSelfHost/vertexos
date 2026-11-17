@@ -21,16 +21,16 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] Write `README.md` with dev setup
 
 ### vertexd skeleton
-- [ ] `cmd/vertexd/main.go` entrypoint
-- [ ] Config loading (file + env + flags)
-- [ ] Structured logging via `slog`
-- [ ] Graceful shutdown
-- [ ] HTTP router with `/api/v1` prefix
-- [ ] `GET /api/v1/health` endpoint
-- [ ] Self-signed TLS cert generation on first run
-- [ ] Serve static SPA bundle from daemon
-- [ ] systemd unit file for `vertexd`
-- [ ] Document root-running + scoped internal packages
+- [x] `cmd/vertexd/main.go` entrypoint
+- [x] Config loading (file + env + flags)
+- [x] Structured logging via `slog`
+- [x] Graceful shutdown
+- [x] HTTP router with `/api/v1` prefix
+- [x] `GET /api/v1/health` endpoint
+- [x] Self-signed TLS cert generation on first run
+- [x] Serve static SPA bundle from daemon
+- [x] systemd unit file for `vertexd`
+- [x] Document root-running + scoped internal packages
 
 ### Auth & users (basic)
 - [ ] SQLite schema: `users` (id, username, password_hash, role, created_at)

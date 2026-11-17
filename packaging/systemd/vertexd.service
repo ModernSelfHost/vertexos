@@ -1,0 +1,16 @@
+[Unit]
+Description=Vertex OS daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/vertexd --config /etc/vertex/vertexd.json
+Restart=on-failure
+RestartSec=5
+User=root
+# Scoped capabilities; tighten further in M4.
+AmbientCapabilities=CAP_SYS_ADMIN CAP_NET_ADMIN
+
+[Install]
+WantedBy=multi-user.target
