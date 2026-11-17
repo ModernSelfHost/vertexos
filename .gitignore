@@ -1,0 +1,45 @@
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+vendor/
+
+# Node / web
+web/node_modules/
+web/dist/
+web/.vite/
+
+# Build artifacts
+bin/
+dist/
+*.iso
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Secrets / local config
+*.env
+.env
+config.local.yaml
+*.pem
+*.key
+
+# Vertex runtime data
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Logs
+*.log
