@@ -5,15 +5,23 @@ import (
 	"crypto/tls"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 	"time"
 
 	"github.com/ModernSelfHost/vertexos/internal/cert"
 	"github.com/ModernSelfHost/vertexos/internal/config"
+	"github.com/ModernSelfHost/vertexos/internal/auth"
 	"github.com/ModernSelfHost/vertexos/internal/httpapi"
+	"github.com/ModernSelfHost/vertexos/internal/jobqueue"
+	"github.com/grandcat/zeroconf"
+	"github.com/ModernSelfHost/vertexos/internal/sessions"
+	"github.com/ModernSelfHost/vertexos/internal/state"
+	"github.com/ModernSelfHost/vertexos/internal/users"
 )
 
 func main() {
@@ -39,7 +47,38 @@ func main() {
 		os.Exit(1)
 	}
 
-	handler := httpapi.NewRouter(httpapi.RouterDeps{StaticDir: staticDir(cfg)})
+	db, err := state.Open(filepath.Join(cfg.DataDir, "vertex.db"))
+	if err != nil {
+		logger.Error("state db", "err", err)
+		os.Exit(1)
+	}
+	defer db.Close()
+
+	userStore := users.NewStore(db)
+	sessionStore := sessions.NewStore(db)
+	jobManager := jobqueue.NewManager(db)
+	_ = jobManager.LoadFromDB()
+
+	// Bootstrap admin if none exist and password provided.
+	if pw := os.Getenv("VERTEX_BOOTSTRAP_ADMIN_PASSWORD"); pw != "" {
+		list, _ := userStore.List()
+		if len(list) == 0 {
+			u, err := userStore.Create("admin", pw, auth.RoleAdmin)
+			if err != nil {
+				logger.Error("bootstrap admin", "err", err)
+			} else {
+				logger.Info("bootstrapped admin user", "username", u.Username)
+			}
+		}
+	}
+
+	handler := httpapi.NewRouter(httpapi.RouterDeps{
+		StaticDir:     staticDir(cfg),
+		UserStore:     userStore,
+		SessionStore:  sessionStore,
+		JobManager:    jobManager,
+		DB:            db,
+	})
 
 	srv := &http.Server{
 		Addr:              cfg.ListenAddr,
@@ -56,6 +95,14 @@ func main() {
 			logger.Error("listen", "err", err)
 		}
 	}()
+
+	// mDNS advertisement + console URL.
+	port := 8443
+	if _, p, err := net.SplitHostPort(cfg.ListenAddr); err == nil {
+		fmt.Sscan(p, &port)
+	}
+	logger.Info("vertex available", "url", fmt.Sprintf("https://vertex.local:%d", port))
+	_, _ = zeroconf.Register("Vertex", "_https._tcp", "local.", port, []string{"path=/"}, nil)
 
 	<-ctx.Done()
 	logger.Info("shutting down")

@@ -33,51 +33,51 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] Document root-running + scoped internal packages
 
 ### Auth & users (basic)
-- [ ] SQLite schema: `users` (id, username, password_hash, role, created_at)
-- [ ] Argon2id password hashing helper
-- [ ] Bootstrap first admin account
-- [ ] `POST /api/v1/auth/login`
-- [ ] `POST /api/v1/auth/logout`
-- [ ] Short-lived session token issuance
-- [ ] Secure cookies + CSRF protection
-- [ ] Auth middleware
-- [ ] Role-based authorization middleware (admin/user/guest)
-- [ ] Rate limiting on login
-- [ ] Account lockout after N failures
+- [x] SQLite schema: `users` (id, username, password_hash, role, created_at)
+- [x] Argon2id password hashing helper
+- [x] Bootstrap first admin account
+- [x] `POST /api/v1/auth/login`
+- [x] `POST /api/v1/auth/logout`
+- [x] Short-lived session token issuance
+- [x] Secure cookies + CSRF protection
+- [x] Auth middleware
+- [x] Role-based authorization middleware (admin/user/guest)
+- [x] Rate limiting on login
+- [x] Account lockout after N failures
 
 ### Job queue
-- [ ] SQLite schema: `jobs` (id, type, status, progress, created_at, updated_at)
-- [ ] Job manager: enqueue, run, cancel
-- [ ] Status transitions (queued/running/succeeded/failed/cancelled)
-- [ ] Progress reporting API
-- [ ] Per-job log storage + streaming
-- [ ] WebSocket event for job progress
-- [ ] `GET /api/v1/jobs` (list/history)
+- [x] SQLite schema: `jobs` (id, type, status, progress, created_at, updated_at)
+- [x] Job manager: enqueue, run, cancel
+- [x] Status transitions (queued/running/succeeded/failed/cancelled)
+- [x] Progress reporting API
+- [x] Per-job log storage + streaming
+- [x] WebSocket event for job progress
+- [x] `GET /api/v1/jobs` (list/history)
 - [ ] Safe retry on failure
 
 ### State store & reconciliation
-- [ ] SQLite migrations framework
-- [ ] Desired-state tables: `settings`, `shares` (placeholder), `users`
-- [ ] Reconciler interface invoked on boot
-- [ ] Detect direct edits to managed config files, flag them
-- [ ] `GET /api/v1/system/export` (config export)
-- [ ] `POST /api/v1/system/import` (config import)
+- [x] SQLite migrations framework
+- [x] Desired-state tables: `settings`, `shares` (placeholder), `users`
+- [x] Reconciler interface invoked on boot
+- [x] Detect direct edits to managed config files, flag them
+- [x] `GET /api/v1/system/export` (config export)
+- [x] `POST /api/v1/system/import` (config import)
 
 ### Wrappers
-- [ ] Exec helper with timeout + structured output
-- [ ] `zpool`/`zfs` JSON parser helpers
-- [ ] `smartctl` parser helpers
-- [ ] Network/systemd helpers (stubs)
+- [x] Exec helper with timeout + structured output
+- [x] `zpool`/`zfs` JSON parser helpers
+- [x] `smartctl` parser helpers
+- [x] Network/systemd helpers (stubs)
 
 ### vertex-cli
-- [ ] `cmd/vertexctl` entrypoint
-- [ ] HTTP client to local API
-- [ ] `auth login` command
-- [ ] `health` command
+- [x] `cmd/vertexctl` entrypoint
+- [x] HTTP client to local API
+- [x] `auth login` command
+- [x] `health` command
 
 ### Discovery
-- [ ] mDNS advertisement of `vertex.local`
-- [ ] Print console URL on boot
+- [x] mDNS advertisement of `vertex.local`
+- [x] Print console URL on boot
 
 ## Milestone 1 — Storage
 

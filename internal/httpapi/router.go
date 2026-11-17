@@ -1,11 +1,16 @@
 package httpapi
 
 import (
+	"database/sql"
 	"embed"
 	"encoding/json"
 	"io/fs"
 	"net/http"
 	"strings"
+
+	"github.com/ModernSelfHost/vertexos/internal/jobqueue"
+	"github.com/ModernSelfHost/vertexos/internal/sessions"
+	"github.com/ModernSelfHost/vertexos/internal/users"
 )
 
 // RouterDeps holds dependencies for the HTTP router.
@@ -16,11 +21,21 @@ type RouterDeps struct {
 	StaticFS embed.FS
 	// UseEmbedded enables serving from StaticFS.
 	UseEmbedded bool
+
+	UserStore    *users.Store
+	SessionStore *sessions.Store
+	JobManager   *jobqueue.Manager
+	DB           *sql.DB
 }
 
 // NewRouter builds the top-level HTTP mux.
 func NewRouter(deps RouterDeps) http.Handler {
 	mux := http.NewServeMux()
+
+	registerAuthRoutes(mux, deps)
+	registerJobsRoutes(mux, deps)
+	registerSystemRoutes(mux, deps)
+	registerWS(mux, deps)
 
 	mux.HandleFunc("GET /api/v1/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
