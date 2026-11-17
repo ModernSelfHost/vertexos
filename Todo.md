@@ -82,41 +82,41 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 ## Milestone 1 — Storage
 
 ### Drive detection
-- [ ] List block devices via `lsblk`
-- [ ] Resolve stable IDs via `/dev/disk/by-id`
-- [ ] Capture model/size/serial
-- [ ] SMART data via `smartctl`
-- [ ] Drive health classification
-- [ ] `GET /api/v1/drives`
-- [ ] WebSocket drive status updates
+- [x] List block devices via `lsblk`
+- [x] Resolve stable IDs via `/dev/disk/by-id`
+- [x] Capture model/size/serial
+- [x] SMART data via `smartctl`
+- [x] Drive health classification
+- [x] `GET /api/v1/drives`
+- [x] WebSocket drive status updates
 
 ### Pool management (advanced)
-- [ ] Parse `zpool status`
-- [ ] `GET /api/v1/pools`
-- [ ] `GET /api/v1/pools/{name}`
-- [ ] Create pool (manual vdev spec) endpoint → job
-- [ ] Add vdev endpoint → job
-- [ ] Trigger scrub endpoint → job
-- [ ] Scrub schedule CRUD
-- [ ] Destroy pool endpoint (typed confirm) → job
-- [ ] Pool property get/set
+- [x] Parse `zpool status`
+- [x] `GET /api/v1/pools`
+- [x] `GET /api/v1/pools/{name}`
+- [x] Create pool (manual vdev spec) endpoint → job
+- [x] Add vdev endpoint → job
+- [x] Trigger scrub endpoint → job
+- [x] Scrub schedule CRUD
+- [x] Destroy pool endpoint (typed confirm) → job
+- [x] Pool property get/set
 
 ### Simple-mode layout proposal
-- [ ] Layout algorithm: 1→single (warn), 2→mirror, 3+→RAIDZ1, 5+→offer RAIDZ2
-- [ ] Usable-space + fault-tolerance calculation
-- [ ] Plain-language explanation strings
-- [ ] `POST /api/v1/pools/propose`
-- [ ] Create pool from proposal endpoint
+- [x] Layout algorithm: 1→single (warn), 2→mirror, 3+→RAIDZ1, 5+→offer RAIDZ2
+- [x] Usable-space + fault-tolerance calculation
+- [x] Plain-language explanation strings
+- [x] `POST /api/v1/pools/propose`
+- [x] Create pool from proposal endpoint
 
 ### SMART monitoring
-- [ ] Periodic SMART poll
-- [ ] Alert generation on SMART failure
-- [ ] Alert storage + `GET /api/v1/alerts`
-- [ ] Alert dismissal
+- [x] Periodic SMART poll
+- [x] Alert generation on SMART failure
+- [x] Alert storage + `GET /api/v1/alerts`
+- [x] Alert dismissal
 
 ### Dashboard storage view
-- [ ] Storage usage aggregation (pool capacity)
-- [ ] `GET /api/v1/dashboard/storage`
+- [x] Storage usage aggregation (pool capacity)
+- [x] `GET /api/v1/dashboard/storage`
 - [ ] Frontend storage card (usage bar, health)
 
 ## Milestone 2 — Shares and users

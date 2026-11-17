@@ -10,6 +10,8 @@ type migration struct {
 var migrations = []migration{
 	{version: 1, apply: migration1},
 	{version: 2, apply: migration2},
+	{version: 3, apply: migration3},
+	{version: 4, apply: migration4},
 }
 
 func migration1(tx *sql.Tx) error {
@@ -48,6 +50,43 @@ func migration1(tx *sql.Tx) error {
 		`CREATE TABLE settings (
 			key TEXT PRIMARY KEY,
 			value TEXT NOT NULL
+		)`,
+	}
+	for _, s := range stmts {
+		if _, err := tx.Exec(s); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func migration4(tx *sql.Tx) error {
+	stmts := []string{
+		`CREATE TABLE alerts (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			kind TEXT NOT NULL,
+			message TEXT NOT NULL,
+			severity TEXT NOT NULL,
+			created_at TEXT NOT NULL,
+			dismissed INTEGER NOT NULL DEFAULT 0
+		)`,
+	}
+	for _, s := range stmts {
+		if _, err := tx.Exec(s); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func migration3(tx *sql.Tx) error {
+	stmts := []string{
+		`CREATE TABLE scrub_schedules (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			pool TEXT NOT NULL,
+			cron TEXT NOT NULL,
+			enabled INTEGER NOT NULL DEFAULT 1,
+			created_at TEXT NOT NULL
 		)`,
 	}
 	for _, s := range stmts {

@@ -59,6 +59,7 @@ type Manager struct {
 type Event struct {
 	Type string `json:"type"`
 	Job  *Job   `json:"job,omitempty"`
+	Data any    `json:"data,omitempty"`
 }
 
 func NewManager(db *sql.DB) *Manager {

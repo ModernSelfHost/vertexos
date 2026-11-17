@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"database/sql"
 	"fmt"
 	"log/slog"
 	"net"
@@ -21,6 +22,7 @@ import (
 	"github.com/grandcat/zeroconf"
 	"github.com/ModernSelfHost/vertexos/internal/sessions"
 	"github.com/ModernSelfHost/vertexos/internal/state"
+	"github.com/ModernSelfHost/vertexos/internal/storage"
 	"github.com/ModernSelfHost/vertexos/internal/users"
 )
 
@@ -96,6 +98,29 @@ func main() {
 		}
 	}()
 
+	// Background drive status polling -> WebSocket.
+	go func() {
+		ticker := time.NewTicker(30 * time.Second)
+		defer ticker.Stop()
+		for {
+			drives, err := storage.ListDrives(context.Background())
+			if err == nil {
+				jobManager.BroadcastEvent(jobqueue.Event{Type: "drives", Data: drives})
+				// SMART alerts
+				for _, d := range drives {
+					if d.Health == "failed" {
+						insertAlertIfNew(db, "smart", "Drive "+d.Name+" ("+d.Device+") reports SMART failure", "critical")
+					}
+				}
+			}
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+			}
+		}
+	}()
+
 	// mDNS advertisement + console URL.
 	port := 8443
 	if _, p, err := net.SplitHostPort(cfg.ListenAddr); err == nil {
@@ -118,6 +143,16 @@ func tlsConfig(c tls.Certificate) *tls.Config {
 		Certificates: []tls.Certificate{c},
 		MinVersion:   tls.VersionTLS12,
 	}
+}
+
+func insertAlertIfNew(db *sql.DB, kind, message, severity string) {
+	var count int
+	_ = db.QueryRow(`SELECT COUNT(*) FROM alerts WHERE kind=? AND message=? AND dismissed=0`, kind, message).Scan(&count)
+	if count > 0 {
+		return
+	}
+	_, _ = db.Exec(`INSERT INTO alerts (kind,message,severity,created_at) VALUES (?,?,?,?)`,
+		kind, message, severity, time.Now().UTC().Format(time.RFC3339))
 }
 
 func staticDir(cfg config.Config) string {

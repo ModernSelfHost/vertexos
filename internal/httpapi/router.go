@@ -32,8 +32,12 @@ type RouterDeps struct {
 func NewRouter(deps RouterDeps) http.Handler {
 	mux := http.NewServeMux()
 
+	registerAlertRoutes(mux, deps)
 	registerAuthRoutes(mux, deps)
+	registerDashboardRoutes(mux, deps)
 	registerJobsRoutes(mux, deps)
+	registerPoolRoutes(mux, deps)
+	registerStorageRoutes(mux, deps)
 	registerSystemRoutes(mux, deps)
 	registerWS(mux, deps)
 

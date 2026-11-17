@@ -173,6 +173,14 @@ func (m *Manager) Unsubscribe(ch chan Event) {
 
 func (m *Manager) broadcast(j *Job) {
 	ev := Event{Type: "job", Job: j}
+	m.broadcastEvent(ev)
+}
+
+func (m *Manager) BroadcastEvent(ev Event) {
+	m.broadcastEvent(ev)
+}
+
+func (m *Manager) broadcastEvent(ev Event) {
 	m.subMu.Lock()
 	defer m.subMu.Unlock()
 	for ch := range m.subs {
