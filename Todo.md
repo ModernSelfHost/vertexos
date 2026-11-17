@@ -117,7 +117,7 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 ### Dashboard storage view
 - [x] Storage usage aggregation (pool capacity)
 - [x] `GET /api/v1/dashboard/storage`
-- [ ] Frontend storage card (usage bar, health)
+- [x] Frontend storage card (usage bar, health)
 
 ## Milestone 2 — Shares and users
 
@@ -144,9 +144,9 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] `GET /api/v1/shares/{id}/permissions`
 
 ### Frontend
-- [ ] Users screen
-- [ ] Shares list + create wizard
-- [ ] Permissions editor
+- [x] Users screen
+- [x] Shares list + create wizard
+- [x] Permissions editor (basic)
 
 ## Milestone 3 — Installer and first-run
 
@@ -160,11 +160,11 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [ ] Reboot + console URL
 
 ### First-run wizard (web)
-- [ ] Welcome screen
-- [ ] Name server
-- [ ] Create admin (if not done in installer)
-- [ ] Drive detection
-- [ ] Pool proposal + creation
+- [x] Welcome screen
+- [x] Name server
+- [x] Create admin (if not done in installer)
+- [x] Drive detection
+- [x] Pool proposal + creation
 - [ ] First share creation
 - [ ] Completion screen
 
