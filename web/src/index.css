@@ -77,7 +77,9 @@ a:hover { text-decoration: none; opacity: 0.85; }
 .main { flex: 1; padding: 2rem; overflow-y: auto; min-width: 0; }
 
 .card {
-  background: var(--panel);
+  background: rgba(28, 28, 30, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -88,7 +90,9 @@ a:hover { text-decoration: none; opacity: 0.85; }
 .card h3 { margin-top: 0; color: var(--text); font-size: 1.05rem; font-weight: 600; }
 
 .tile {
-  background: var(--panel);
+  background: rgba(28, 28, 30, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
@@ -159,7 +163,9 @@ a:hover { text-decoration: none; opacity: 0.85; }
   border: 1px solid var(--border);
   border-radius: 12px;
   margin-bottom: 0.5rem;
-  background: var(--panel);
+  background: rgba(28, 28, 30, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: background 0.15s;
 }
 .list-item:hover { background: var(--panel-2); }
