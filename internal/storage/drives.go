@@ -15,17 +15,17 @@ import (
 
 // Drive describes a detected block device.
 type Drive struct {
-	Name       string              `json:"name"`
-	Device     string              `json:"device"`
-	StableID   string              `json:"stable_id"`
-	Model      string              `json:"model"`
-	Serial     string              `json:"serial"`
-	SizeBytes  uint64              `json:"size_bytes"`
-	Type       string              `json:"type"`
-	Mountpoint string              `json:"mountpoint"`
-	Rotational bool                `json:"rotational"`
+	Name       string               `json:"name"`
+	Device     string               `json:"device"`
+	StableID   string               `json:"stable_id"`
+	Model      string               `json:"model"`
+	Serial     string               `json:"serial"`
+	SizeBytes  uint64               `json:"size_bytes"`
+	Type       string               `json:"type"`
+	Mountpoint string               `json:"mountpoint"`
+	Rotational bool                 `json:"rotational"`
 	Smart      *wrappers.DriveSmart `json:"smart,omitempty"`
-	Health     string              `json:"health"`
+	Health     string               `json:"health"`
 }
 
 type lsblkOut struct {
@@ -33,13 +33,13 @@ type lsblkOut struct {
 }
 type lsblkDev struct {
 	Name       string     `json:"name"`
-	Size      any        `json:"size"`
-	Type      string     `json:"type"`
-	Model     string     `json:"model"`
-	Serial    string     `json:"serial"`
-	Mountpoint string    `json:"mountpoint"`
-	Rota      any        `json:"rota"`
-	Children  []lsblkDev `json:"children"`
+	Size       any        `json:"size"`
+	Type       string     `json:"type"`
+	Model      string     `json:"model"`
+	Serial     string     `json:"serial"`
+	Mountpoint string     `json:"mountpoint"`
+	Rota       any        `json:"rota"`
+	Children   []lsblkDev `json:"children"`
 }
 
 // ListDrives enumerates top-level disk devices and enriches with stable IDs + SMART.

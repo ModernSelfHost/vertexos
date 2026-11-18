@@ -12,9 +12,9 @@ import (
 )
 
 type createPoolRequest struct {
-	Name   string   `json:"name"`
-	Vdevs  []string `json:"vdevs"`
-	Force  bool     `json:"force"`
+	Name  string   `json:"name"`
+	Vdevs []string `json:"vdevs"`
+	Force bool     `json:"force"`
 }
 
 type addVdevRequest struct {
@@ -145,7 +145,7 @@ func registerPoolRoutes(mux *http.ServeMux, deps RouterDeps) {
 			args = append(args, "all")
 		}
 		args = append(args, name)
-		out, err := wrappers.RunCombined(r.Context(), 30, "zpool", args...)
+		out, err := wrappers.RunCombined(r.Context(), 30*time.Second, "zpool", args...)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -235,5 +235,3 @@ func registerPoolRoutes(mux *http.ServeMux, deps RouterDeps) {
 		})
 	}
 }
-
-

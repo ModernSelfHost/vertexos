@@ -8,12 +8,22 @@ export default function Storage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [poolName, setPoolName] = useState("tank");
   const [creating, setCreating] = useState(false);
+  const [advanced, setAdvanced] = useState(false);
 
   async function load() {
     setDrives(await api("/api/v1/drives"));
     setPools(await api("/api/v1/pools"));
+    try {
+      const s: any = await api("/api/v1/settings");
+      setAdvanced(s.advanced_mode === "true");
+    } catch {}
   }
   useEffect(() => { load().catch(() => {}); }, []);
+
+  async function toggleAdvanced(v: boolean) {
+    setAdvanced(v);
+    try { await api("/api/v1/settings", { method: "PUT", body: JSON.stringify({ key: "advanced_mode", value: String(v) }) }); } catch {}
+  }
 
   async function propose() {
     const res = await api("/api/v1/pools/propose", { method: "POST", body: JSON.stringify({ drives: selected }) });
@@ -31,6 +41,9 @@ export default function Storage() {
   return (
     <div>
       <h2>Storage</h2>
+      <div className="card" style={{ padding: 12 }}>
+        <label className="row"><input type="checkbox" checked={advanced} onChange={e => toggleAdvanced(e.target.checked)} /> Advanced mode</label>
+      </div>
       <div className="card">
         <h3>Drives</h3>
         {drives.map((d: any) => (

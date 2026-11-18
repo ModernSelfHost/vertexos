@@ -10,17 +10,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // try fetch current user by listing? No endpoint. We'll just set loading false.
-    setLoading(false);
+    api("/api/v1/auth/me").then((u: any) => setUser(u)).catch(() => { sessionStorage.removeItem("vertex_csrf"); }).finally(() => setLoading(false));
   }, []);
 
   async function login(username: string, password: string) {
     const res: any = await api("/api/v1/auth/login", { method: "POST", body: JSON.stringify({ username, password }) });
     setUser(res.user);
+    if (res.csrf) sessionStorage.setItem("vertex_csrf", res.csrf);
   }
   async function logout() {
     await api("/api/v1/auth/logout", { method: "POST" });
     setUser(null);
+    sessionStorage.removeItem("vertex_csrf");
   }
   return <Ctx.Provider value={{ user, loading, login, logout }}>{children}</Ctx.Provider>;
 }

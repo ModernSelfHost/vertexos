@@ -14,17 +14,18 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ModernSelfHost/vertexos/internal/cert"
-	"github.com/ModernSelfHost/vertexos/internal/config"
 	"github.com/ModernSelfHost/vertexos/internal/apps"
 	"github.com/ModernSelfHost/vertexos/internal/auth"
+	"github.com/ModernSelfHost/vertexos/internal/cert"
+	"github.com/ModernSelfHost/vertexos/internal/config"
 	"github.com/ModernSelfHost/vertexos/internal/httpapi"
 	"github.com/ModernSelfHost/vertexos/internal/jobqueue"
-	"github.com/grandcat/zeroconf"
 	"github.com/ModernSelfHost/vertexos/internal/sessions"
 	"github.com/ModernSelfHost/vertexos/internal/state"
 	"github.com/ModernSelfHost/vertexos/internal/storage"
 	"github.com/ModernSelfHost/vertexos/internal/users"
+	"github.com/ModernSelfHost/vertexos/internal/wrappers"
+	"github.com/grandcat/zeroconf"
 )
 
 func main() {
@@ -76,13 +77,13 @@ func main() {
 	}
 
 	handler := httpapi.NewRouter(httpapi.RouterDeps{
-		StaticDir:     staticDir(cfg),
-		UserStore:     userStore,
-		SessionStore:  sessionStore,
-		JobManager:    jobManager,
-		DB:            db,
-		AppCatalog:    apps.NewCatalog(""),
-		AppRuntime:    apps.NoopRuntime{},
+		StaticDir:    staticDir(cfg),
+		UserStore:    userStore,
+		SessionStore: sessionStore,
+		JobManager:   jobManager,
+		DB:           db,
+		AppCatalog:   apps.NewCatalog(""),
+		AppRuntime:   apps.NoopRuntime{},
 	})
 
 	srv := &http.Server{
@@ -113,6 +114,14 @@ func main() {
 				for _, d := range drives {
 					if d.Health == "failed" {
 						insertAlertIfNew(db, "smart", "Drive "+d.Name+" ("+d.Device+") reports SMART failure", "critical")
+					}
+				}
+			}
+			// Pool health alerts
+			if pools, err := wrappers.ListPools(context.Background()); err == nil {
+				for _, p := range pools {
+					if p.Health != "" && p.Health != "ONLINE" && p.Health != "healthy" {
+						insertAlertIfNew(db, "pool", "Pool "+p.Name+" health: "+p.Health, "critical")
 					}
 				}
 			}

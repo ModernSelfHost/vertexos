@@ -15,12 +15,12 @@ import (
 )
 
 type shareRecord struct {
-	ID             int64  `json:"id"`
-	Name           string `json:"name"`
-	Dataset        string `json:"dataset"`
-	QuotaBytes     int64  `json:"quota_bytes"`
-	GuestAccessible bool  `json:"guest_accessible"`
-	CreatedAt      string `json:"created_at"`
+	ID              int64  `json:"id"`
+	Name            string `json:"name"`
+	Dataset         string `json:"dataset"`
+	QuotaBytes      int64  `json:"quota_bytes"`
+	GuestAccessible bool   `json:"guest_accessible"`
+	CreatedAt       string `json:"created_at"`
 }
 
 func registerShareRoutes(mux *http.ServeMux, deps RouterDeps) {
@@ -144,7 +144,7 @@ func registerShareRoutes(mux *http.ServeMux, deps RouterDeps) {
 			var dataset string
 			db.QueryRow(`SELECT dataset FROM shares WHERE id=?`, id).Scan(&dataset)
 			if dataset != "" {
-				wrappers.RunCombined(r.Context(), 30, "zfs", "set", fmt.Sprintf("quota=%d", *req.QuotaBytes), dataset)
+				wrappers.RunCombined(r.Context(), 30*time.Second, "zfs", "set", fmt.Sprintf("quota=%d", *req.QuotaBytes), dataset)
 			}
 		}
 		if req.GuestAccessible != nil {
@@ -164,7 +164,7 @@ func registerShareRoutes(mux *http.ServeMux, deps RouterDeps) {
 		db.QueryRow(`SELECT dataset FROM shares WHERE id=?`, id).Scan(&dataset)
 		// destroy dataset (best effort)
 		if dataset != "" {
-			wrappers.RunCombined(r.Context(), 30, "zfs", "destroy", dataset)
+			wrappers.RunCombined(r.Context(), 30*time.Second, "zfs", "destroy", dataset)
 		}
 		db.Exec(`DELETE FROM shares WHERE id=?`, id)
 		db.Exec(`DELETE FROM share_access WHERE share_id=?`, id)

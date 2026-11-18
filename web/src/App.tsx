@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./Layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import AdvancedStorage from "./pages/AdvancedStorage";
 import Storage from "./pages/Storage";
 import Shares from "./pages/Shares";
 import Apps from "./pages/Apps";
@@ -26,6 +27,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Guard><Dashboard /></Guard>} />
           <Route path="/storage" element={<Guard><Storage /></Guard>} />
+          <Route path="/advanced-storage" element={<Guard><AdvancedStorage /></Guard>} />
           <Route path="/shares" element={<Guard><Shares /></Guard>} />
           <Route path="/apps" element={<Guard><Apps /></Guard>} />
           <Route path="/users" element={<Guard><Users /></Guard>} />

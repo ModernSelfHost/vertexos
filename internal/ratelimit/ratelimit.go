@@ -7,11 +7,11 @@ import (
 
 // Limiter is a simple per-key fixed window counter.
 type Limiter struct {
-	mu       sync.Mutex
-	counts   map[string]int
-	resetAt  map[string]time.Time
-	limit    int
-	window   time.Duration
+	mu      sync.Mutex
+	counts  map[string]int
+	resetAt map[string]time.Time
+	limit   int
+	window  time.Duration
 }
 
 func New(limit int, window time.Duration) *Limiter {

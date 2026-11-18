@@ -5,6 +5,7 @@ import Metaballs from "./Metaballs";
 const links = [
   { to: "/", label: "Dashboard", icon: "dashboard" },
   { to: "/storage", label: "Storage", icon: "storage" },
+  { to: "/advanced-storage", label: "Advanced", icon: "tune", admin: true },
   { to: "/shares", label: "Shares", icon: "folder_shared" },
   { to: "/apps", label: "Apps", icon: "apps" },
   { to: "/users", label: "Users", icon: "group", admin: true },

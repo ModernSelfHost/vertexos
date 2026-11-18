@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api";
 import { useAuth } from "../auth";
 
 export default function Login() {
   const { login } = useAuth();
   const nav = useNavigate();
+  useEffect(() => {
+    api("/api/v1/setup/status").then((r: any) => { if (r.needs_setup) nav("/wizard"); }).catch(() => {});
+  }, [nav]);
   const [u, setU] = useState("");
   const [p, setP] = useState("");
   const [err, setErr] = useState("");

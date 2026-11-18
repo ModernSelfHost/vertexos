@@ -87,13 +87,13 @@ const (
 
 // User model.
 type User struct {
-	ID            int64
-	Username      string
-	PasswordHash  string
-	Role          Role
-	CreatedAt     time.Time
+	ID             int64
+	Username       string
+	PasswordHash   string
+	Role           Role
+	CreatedAt      time.Time
 	FailedAttempts int
-	LockedUntil   *time.Time
+	LockedUntil    *time.Time
 }
 
 func (u *User) IsLocked() bool {

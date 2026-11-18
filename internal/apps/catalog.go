@@ -28,8 +28,8 @@ type catalogDoc struct {
 
 // FetchCatalog retrieves the app catalog, cached for 1 hour in memory.
 type Catalog struct {
-	URL     string
-	cache   []App
+	URL      string
+	cache    []App
 	cachedAt time.Time
 }
 

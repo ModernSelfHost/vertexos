@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/ModernSelfHost/vertexos/internal/wrappers"
 )
@@ -34,7 +35,7 @@ func registerNFSRoutes(mux *http.ServeMux, deps RouterDeps) {
 		deps.DB.Exec(`INSERT INTO settings(key,value) VALUES('nfs_exports',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value`, body.Exports)
 		_ = os.MkdirAll("/etc/exports.d", 0755)
 		_ = os.WriteFile("/etc/exports.d/vertex.exports", []byte(body.Exports+"\n"), 0644)
-		_, _ = wrappers.RunCombined(r.Context(), 30, "exportfs", "-ra")
+		_, _ = wrappers.RunCombined(r.Context(), 30*time.Second, "exportfs", "-ra")
 		w.WriteHeader(http.StatusNoContent)
 	})
 }

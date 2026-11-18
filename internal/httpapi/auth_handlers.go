@@ -72,6 +72,19 @@ func registerAuthRoutes(mux *http.ServeMux, deps RouterDeps) {
 		})
 	})
 
+	mux.HandleFunc("GET /api/v1/auth/me", func(w http.ResponseWriter, r *http.Request) {
+		u, ok := UserFromContext(r.Context())
+		if !ok {
+			http.Error(w, "unauthorized", http.StatusUnauthorized)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(map[string]any{
+			"id":       u.ID,
+			"username": u.Username,
+			"role":     u.Role,
+		})
+	})
 	mux.HandleFunc("POST /api/v1/auth/logout", func(w http.ResponseWriter, r *http.Request) {
 		if c, err := r.Cookie(sessions.CookieName); err == nil {
 			_ = deps.SessionStore.Delete(c.Value)

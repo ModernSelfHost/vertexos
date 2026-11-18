@@ -165,33 +165,33 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [x] Create admin (if not done in installer)
 - [x] Drive detection
 - [x] Pool proposal + creation
-- [ ] First share creation
-- [ ] Completion screen
+- [x] First share creation
+- [x] Completion screen
 
 ### Config export/import
-- [ ] Export (zip with SQLite + configs)
-- [ ] Import with validation
+- [x] Export (zip with SQLite + configs)
+- [x] Import with validation
 
 ## Milestone 4 — Hardening and v1
 
 ### Advanced storage mode
-- [ ] UI toggle + persisted preference
-- [ ] Pools/vdevs/datasets views
-- [ ] Properties editor (compression, recordsize, quotas)
-- [ ] Snapshots list/create/destroy
-- [ ] Scrub schedule editor
+- [x] UI toggle + persisted preference
+- [x] Pools/vdevs/datasets views
+- [x] Properties editor (compression, recordsize, quotas)
+- [x] Snapshots list/create/destroy
+- [x] Scrub schedule editor
 
 ### OS updates
-- [ ] Update detection via apt
-- [ ] Approval flow endpoint
-- [ ] ZFS boot-environment snapshot before update
-- [ ] Apply update job with status
-- [ ] Rollback documentation (boot menu)
+- [x] Update detection via apt
+- [x] Approval flow endpoint
+- [x] ZFS boot-environment snapshot before update
+- [x] Apply update job with status
+- [x] Rollback documentation (boot menu)
 - [ ] Channels: stable + testing
 
 ### Logging & alerts
 - [ ] Central log collection
-- [ ] Logs view endpoint + UI
+- [x] Logs view endpoint + UI
 - [ ] Alert rules (SMART, pool degraded, capacity)
 - [ ] In-app alert notifications
 
@@ -199,7 +199,7 @@ Module path: `github.com/ModernSelfHost/vertexos`.
 - [ ] Input validation review
 - [ ] Least-privilege review for daemon
 - [ ] nftables default rules
-- [ ] Security headers
+- [x] Security headers
 
 ### Docs
 - [ ] User guide

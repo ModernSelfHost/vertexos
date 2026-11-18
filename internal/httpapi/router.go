@@ -35,6 +35,7 @@ type RouterDeps struct {
 func NewRouter(deps RouterDeps) http.Handler {
 	mux := http.NewServeMux()
 
+	registerAdvancedRoutes(mux, deps)
 	registerAlertRoutes(mux, deps)
 	registerAppRoutes(mux, deps)
 	registerAuthRoutes(mux, deps)
@@ -43,15 +44,17 @@ func NewRouter(deps RouterDeps) http.Handler {
 	registerJobsRoutes(mux, deps)
 	registerNFSRoutes(mux, deps)
 	registerPoolRoutes(mux, deps)
+	registerSetupRoutes(mux, deps)
 	registerShareRoutes(mux, deps)
 	registerStorageRoutes(mux, deps)
 	registerSystemRoutes(mux, deps)
+	registerUpdateRoutes(mux, deps)
 	registerWS(mux, deps)
 
 	mux.HandleFunc("GET /api/v1/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(map[string]string{
-			"status": "ok",
+			"status":  "ok",
 			"service": "vertexd",
 		})
 	})
@@ -66,19 +69,20 @@ func NewRouter(deps RouterDeps) http.Handler {
 	}
 
 	// Wrap with auth middleware for protected paths.
+	var h http.Handler = mux
 	if deps.UserStore != nil && deps.SessionStore != nil {
 		authMw := AuthMiddleware(deps.UserStore, deps.SessionStore)
 		orig := mux
-		wrapped := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		h = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if isPublicPath(r.URL.Path) {
 				orig.ServeHTTP(w, r)
 				return
 			}
 			authMw(orig).ServeHTTP(w, r)
 		})
-		return wrapped
 	}
-	return mux
+	// Security headers.
+	return securityHeaders(h)
 }
 
 func isPublicPath(p string) bool {
@@ -86,6 +90,8 @@ func isPublicPath(p string) bool {
 	case p == "/api/v1/health":
 		return true
 	case p == "/api/v1/auth/login":
+		return true
+	case strings.HasPrefix(p, "/api/v1/setup/"):
 		return true
 	case p == "/ws":
 		return true

@@ -19,7 +19,7 @@ func (NoopRuntime) Name() string { return "none" }
 func (NoopRuntime) Install(string, map[string]string) error {
 	return ErrRuntimeNotConfigured
 }
-func (NoopRuntime) Uninstall(string) error { return ErrRuntimeNotConfigured }
+func (NoopRuntime) Uninstall(string) error        { return ErrRuntimeNotConfigured }
 func (NoopRuntime) Status(string) (string, error) { return "not-installed", nil }
 
 var ErrRuntimeNotConfigured = &runtimeError{"container runtime not configured (post-v1 feature)"}
